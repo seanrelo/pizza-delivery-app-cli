@@ -30,5 +30,15 @@ menuService.getMenu = function(data,callback){
   }
 };
 
+menuService.getMenuCli = function(){
+  try{
+      var menu = _data.read('menu','menuRepository');
+      return menu;
+  }catch(e){
+    console.log(e);
+    return {};
+  }
+}
+
 
 module.exports = menuService;
