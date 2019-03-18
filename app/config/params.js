@@ -32,7 +32,7 @@ params.dev = {
     'global.baseUrl' : 'http://localhost:3000/',
     'global.head.title': 'Faster Pizza'
   },
-  'cliInput':['menu','order','more order info','singup','more user info']
+  'cliInput':['menu','orders','more order info','singup','more user info','help']
 };
 
 // Params of the Production environment
@@ -60,7 +60,7 @@ params.production = {
     'global.baseUrl' : 'http://localhost:5000/',
     'global.head.title': 'Faster Pizza'
   },
-  'cliInput':['menu','order','more order info','singup','more user info']
+  'cliInput':['menu','orders','more order info','singup','more user info','help']
 };
 
 // Function to get the params for a environment

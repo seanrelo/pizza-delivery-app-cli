@@ -31,7 +31,6 @@ utilFile.create = function(dir,file,data){
 utilFile.read = function(dir,file){
   try{
       var data = fs.readFileSync(utilFile.baseDir+dir+'/'+file+'.json','utf-8');
-      console.log(data);
       return objectUtil.perseJsonToObject(data);
   }catch(e){
     console.log(e);
@@ -60,6 +59,28 @@ utilFile.delete = function(dir,file){
     throw Error(e);
   }
 };
+
+utilFile.list = function(dir){
+  try{
+    var list = [];
+    var archivo = fs.readdirSync(utilFile.baseDir+dir+'/');
+    for(var i=0;i<archivo.length;i++){
+      list.push(archivo[i].replace('.json',''));
+    }
+    return list;
+  }catch(e){
+    throw Error(e);
+  }
+};
+
+utilFile.stat = function(dir,file){
+  try{
+    var statFile = fs.statSync(utilFile.baseDir+dir+'/'+file+'.json');
+    return statFile;
+  }catch(e){
+    throw Error(e);
+  }
+}
 
 // export module
 module.exports = utilFile;

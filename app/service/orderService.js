@@ -10,6 +10,8 @@ var _objectUtil = require('../util/objectUtil');
 var params = require('../config/params');
 const https = require('https');
 const querystring = require('querystring');
+const _stringUtil = require('../util/stringUtil');
+var util = require('util');
 //Instantite the object
 var orderService = {};
 
@@ -28,6 +30,17 @@ orderService.createOrder =  async function(data,callback){
                 orderService.callStripe(cost,data.email,resolve,reject);
               });
               try{
+                try{
+                  var orderObject = {
+                    "email":data.email,
+                    "items":cartData.items,
+                    "cost":cost
+                  }
+                  var orderId = _stringUtil.randomString(20);
+                  _data.create('orders',orderId,orderObject);
+                }catch(z){
+                  console.log(z);
+                }
                 var senEmail = await new Promise(function(resolve,reject){
                   orderService.sendEmail(userData,resolve,reject);
                 });
@@ -185,5 +198,32 @@ orderService.sendEmail = function(userData,resolve,reject){
   }
 }
 
+orderService.getListOrders = function(){
+  try{
+    var list = [];
+    var archivos = _data.list('orders');
+    for(var i=0;i<archivos.length;i++){
+      var stat = _data.stat('orders',archivos[i]);
+      var yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() -1);
+      var mtime = new Date(util.inspect(stat.mtime));
+      if(mtime.getTime() > yesterday.getTime()){
+        //var dataToken = _data.read('orders',archivos[i]);
+        list.push(archivos[i]);
+      }
+    }
+    return list;
+  }catch(e){
+    console.log(e);
+  }
+};
 
+orderService.getMoreOrderInfo = function(str){
+  try{
+    var data = _data.read("orders",str);
+    return data;
+  }catch(e){
+    console.log(e);
+  }
+};
 module.exports = orderService;

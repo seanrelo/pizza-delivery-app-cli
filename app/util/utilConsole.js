@@ -40,5 +40,4 @@ utilConsole.initConsole = function(procesInput){
   });
 };
 
-
 module.exports = utilConsole;

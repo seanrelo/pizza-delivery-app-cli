@@ -8,6 +8,8 @@
 var events = require('events');
 var params = require('../config/params');
 var menuResponse = require('./menuEventResponse');
+var userResponse = require('./userEventResponse');
+var orderResponse = require('./orderEventResponse');
 
 // Instanciate
 class _events extends events{};
@@ -37,16 +39,16 @@ eventController.emitEvent = function(str){
 e.on('menu',function(){
   menuResponse.getMenu();
 });
-e.on('order',function(){
-  console.log("aa");
+e.on('orders',function(){
+  orderResponse.getOrder();
 });
-e.on('more order info',function(){
-  console.log("aa");
+e.on('more order info',function(str){
+  orderResponse.getMoreOrderInfo(str);
 });
 e.on('singup',function(){
-  console.log("aa");
+  userResponse.getLogInUser();
 });
-e.on('more user info',function(){
-  console.log("aa");
+e.on('more user info',function(str){
+  userResponse.getInfoUser(str);
 });
 module.exports = eventController;

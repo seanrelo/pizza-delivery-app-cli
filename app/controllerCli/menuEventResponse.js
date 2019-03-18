@@ -13,5 +13,6 @@ var menuResponse = {};
 menuResponse.getMenu = function(){
   var menu = menuService.getMenuCli();
   console.log(menu);
+  console.log('');
 };
 module.exports = menuResponse;

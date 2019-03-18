@@ -8,6 +8,7 @@ var _data = require('../util/fileUtil');
 var _stringUtil = require('../util/stringUtil');
 var _objectUtil = require('../util/objectUtil');
 var tokenService = require('./tokenService');
+var util = require("util");
 
 // Instantite userService object
 var userService = {};
@@ -118,6 +119,35 @@ userService.deleteUser = function(data,callback){
     }else{
       callback(403,{'Error':validObject.message});
     }
+  }catch(e){
+    console.log(e);
+  }
+};
+
+userService.getListLogInUser = function(){
+  try{
+    var list = [];
+    var archivos = _data.list('tokens');
+    for(var i=0;i<archivos.length;i++){
+      var stat = _data.stat('tokens',archivos[i]);
+      var yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() -1);
+      var mtime = new Date(util.inspect(stat.mtime));
+      if(mtime.getTime() > yesterday.getTime()){
+        var dataToken = _data.read('tokens',archivos[i]);
+        list.push(dataToken);
+      }
+    }
+    return list;
+  }catch(e){
+    console.log(e);
+  }
+};
+
+userService.getuserCli = function(str){
+  try{
+    var data = _data.read("users",str);
+    return data;
   }catch(e){
     console.log(e);
   }
